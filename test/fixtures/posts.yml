@@ -1,0 +1,6 @@
+<% 10.times do |n| %>
+post_<%= n %>:
+  body: "This is the <%= n %>th post."
+  author: "Author_<%= n %>"
+  title: "Post_<%= n %>"
+<% end %>
