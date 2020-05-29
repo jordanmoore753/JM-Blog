@@ -11,4 +11,34 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def populate_db()
+    User.all.each { |user| generate_posts(user.id) }
+    create_comments_for_posts
+  end
+
+  private
+
+  def generate_posts(user_id)
+    10.times do |n|
+      Post.create!({
+        body: "This is the #{n}th post.",
+        user_id: user_id,
+        title: "Post #{n}"
+      })
+    end
+  end
+
+  def create_comments_for_posts
+    Post.all.each { |post| generate_comments(post) }
+  end
+
+  def generate_comments(post)
+    5.times do |n|
+      Comment.create!({
+        post_id: post.id,
+        user_id: post.user_id,
+        body: "This is the #{n}th comment."
+      })
+    end
+  end
 end

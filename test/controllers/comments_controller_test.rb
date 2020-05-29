@@ -2,18 +2,9 @@ require 'test_helper'
 
 class CommentsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @post = Post.create!({ body: "This is my post.",
-                           title: "Post 1",
-                           author: "Author 1" })
-
-    5.times do |n|
-      Comment.create!({
-        body: "This is the #{n}th comment.",
-        author: "Author number #{n}",
-        post_id: @post.id
-      })
-    end
-
+    populate_db
+    @user_one = User.first
+    @user_two = User.last
     @comment = Comment.first
   end
 

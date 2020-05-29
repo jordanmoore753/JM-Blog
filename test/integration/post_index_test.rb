@@ -2,8 +2,11 @@ require 'test_helper'
 
 class PostIndexTest < ActionDispatch::IntegrationTest
   def setup
-    @post = Post.first
+    populate_db
+    @user_one = User.first
+    @user_two = User.last
     @posts = Post.all
+    @post = @posts.first
   end
 
   test 'should get index of all posts' do 

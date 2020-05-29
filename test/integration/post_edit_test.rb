@@ -2,6 +2,9 @@ require 'test_helper'
 
 class PostEditTest < ActionDispatch::IntegrationTest
   def setup
+    populate_db
+    @user_one = User.first
+    @user_two = User.last
     @post = Post.first
   end
 
@@ -20,7 +23,7 @@ class PostEditTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'should update post' do
+  test 'should update post' do                                        
     patch post_path(@post), params: { post: { title: "Yeah man!",
                                               body: "Boogie boogie.",
                                               author: "Author Man" }}

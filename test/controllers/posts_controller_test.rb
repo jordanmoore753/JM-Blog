@@ -2,8 +2,10 @@ require 'test_helper'
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @posts = Post.all 
-    @first_post = @posts.first
+    populate_db
+    @user_one = User.first
+    @user_two = User.last
+    @first_post = Post.first
   end
 
   test 'should get index' do
