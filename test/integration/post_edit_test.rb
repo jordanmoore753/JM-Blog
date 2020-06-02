@@ -5,10 +5,11 @@ class PostEditTest < ActionDispatch::IntegrationTest
     populate_db
     @user_one = User.first
     @user_two = User.last
-    @post = Post.first
+    @post = Post.find_by(user_id: @user_one.id)
   end
 
   test 'should get edit post page' do 
+    log_in_as(@user_one)
     get edit_post_path(@post)
     assert_response :success
     assert_select "title", "Edit Article | JM Blog"
@@ -23,7 +24,29 @@ class PostEditTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'should update post' do                                        
+  test 'should not get edit post page because not logged in as author' do
+    log_in_as(@user_two)
+    get edit_post_path(@post)
+    assert_response 302
+    assert_template "sessions/new"
+    assert_not flash.empty?
+    assert_not flash[:danger].empty?
+  end
+
+  test 'should not update post because not logged in as author' do
+    patch post_path(@post), params: { post: { title: "Yeah man!",
+                                              body: "Boogie boogie.",
+                                              author: "Author Man" }}
+
+    assert_response 302
+    follow_redirect!
+    assert_template 'sessions/new'
+    assert_not flash.empty?
+    assert_not flash[:danger].empty?
+  end
+
+  test 'should update post' do  
+    log_in_as(@user_one)                                      
     patch post_path(@post), params: { post: { title: "Yeah man!",
                                               body: "Boogie boogie.",
                                               author: "Author Man" }}

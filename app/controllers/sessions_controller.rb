@@ -6,7 +6,11 @@ class SessionsController < ApplicationController
   def create
 
   end
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> rest
   def destroy
 
   end
