@@ -11,9 +11,17 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  def populate_db()
+  def populate_db
     User.all.each { |user| generate_posts(user.id) }
     create_comments_for_posts
+  end
+
+  def is_logged_in?
+    !session[:user_id].nil?
+  end
+
+  def log_in_as(user)
+    session[:user_id] = user.id
   end
 
   private
@@ -40,5 +48,12 @@ class ActiveSupport::TestCase
         body: "This is the #{n}th comment."
       })
     end
+  end
+end
+
+class ActionDispatch::IntegrationTest
+  def log_in_as(user, password: 'foob1!')
+    post login_path, params: { session: { email: user.email,
+                                          password: password}}
   end
 end

@@ -8,4 +8,4 @@ one:
 two:
   name: 'jondan'
   email: 'jondan@gmail.com'
-  password_digest: <%= User.digest('foobar') %>
+  password_digest: <%= User.digest('foob1!') %>
