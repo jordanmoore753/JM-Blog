@@ -56,9 +56,40 @@ class CommentsEditCreateTest < ActionDispatch::IntegrationTest
     assert_redirected_to post_path(@post)
     assert_template 'posts/show'
     assert_not flash[:success].empty?
-    assert flash[:danger].empty?
+    assert_not flash[:danger].empty?
     assert_equal @comment.body, 'What is good?'
   end
 
-  # write destroy test
+  test 'should destroy comment' do
+    log_in_as(@user_one)
+    delete post_comment_path(@comment.post_id, @comment.id)
+    assert_response 302
+    follow_redirect!
+
+    assert_redirected_to post_path(@post)
+    assert_template 'posts/show'
+    assert_not flash[:success].empty?
+    assert_not Comment.find_by(@comment.id)
+  end
+
+  test 'should not destroy comment because not logged in as author' do
+    delete post_comment_path(@comment.post_id, @comment.id)
+    assert_response 302
+    follow_redirect!
+
+    assert_redirected_to post_path(@post)
+    assert_template 'posts/show'
+    assert_not flash[:danger].empty?
+    assert Comment.find_by(@comment.id)
+
+    log_in_as(@user_two)
+    delete post_comment_path(@comment.post_id, @comment.id)
+    assert_response 302
+    follow_redirect!
+
+    assert_redirected_to post_path(@post)
+    assert_template 'posts/show'
+    assert_not flash[:danger].empty?
+    assert Comment.find_by(@comment.id)
+  end
 end

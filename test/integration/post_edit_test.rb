@@ -58,4 +58,39 @@ class PostEditTest < ActionDispatch::IntegrationTest
     assert_equal @post.body, "Boogie boogie."
     assert_equal @post.author, "Author Man"                                      
   end
+
+  test 'should not destroy post when not logged in as author' do
+    id = @post.id
+    delete post_path(@post)
+    assert_response 302
+    follow_redirect!
+
+    assert_redirected_to posts_path
+    assert_template 'posts/index'
+    assert_not flash[:danger].empty?
+    assert Post.find_by(id)
+
+    log_in_as(@user_two)
+    delete post_path(@post)
+    assert_response 302
+    follow_redirect!
+
+    assert_redirected_to posts_path
+    assert_template 'posts/index'
+    assert_not flash[:danger].empty?
+    assert Post.find_by(id)
+  end
+
+  test 'should destroy post' do
+    id = @post.id
+    log_in_as(@user_one)
+    delete post_path(@post)
+    assert_response 302
+    follow_redirect!
+
+    assert_redirected_to posts_path
+    assert_template 'posts/index'
+    assert_not flash[:success].empty?
+    assert_not Post.find_by(id)
+  end
 end
