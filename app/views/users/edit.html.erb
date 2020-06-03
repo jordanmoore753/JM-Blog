@@ -1,0 +1,12 @@
+<% provide(:title, 'Edit Profile') %>
+
+<h1>Edit Profile</h1>
+<%= form_with(scope: @user, url: edit_path, local: true, method: 'patch') do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  <%= form.label :email %>
+  <%= form.email_field :email %>
+  <%= form.label :password %>
+  <%= form.password_field :password %>
+  <%= form.submit 'Edit' %>
+<% end %>

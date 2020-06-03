@@ -33,6 +33,7 @@ class SessionCreateTest < ActionDispatch::IntegrationTest
 
     delete logout_path
     assert_response 302
+    follow_redirect!
     assert_template 'sessions/new'
     assert_not flash.empty?
     assert_not flash[:success].empty?
