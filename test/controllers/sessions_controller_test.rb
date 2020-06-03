@@ -8,7 +8,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   test 'should get login' do 
     get login_path
     assert_response :success
-    assert_template 'users/show'
+    assert_template 'sessions/new'
   end
 
   test 'should not get login' do
