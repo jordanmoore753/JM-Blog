@@ -35,8 +35,7 @@ class PostEditTest < ActionDispatch::IntegrationTest
 
   test 'should not update post because not logged in as author' do
     patch post_path(@post), params: { post: { title: "Yeah man!",
-                                              body: "Boogie boogie.",
-                                              author: "Author Man" }}
+                                              body: "Boogie boogie." }}
 
     assert_response 302
     follow_redirect!
@@ -48,15 +47,13 @@ class PostEditTest < ActionDispatch::IntegrationTest
   test 'should update post' do  
     log_in_as(@user_one)                                      
     patch post_path(@post), params: { post: { title: "Yeah man!",
-                                              body: "Boogie boogie.",
-                                              author: "Author Man" }}
+                                              body: "Boogie boogie." }}
 
     assert_response 302
     @post.reload                                        
     assert_redirected_to post_path(@post)
     assert_equal @post.title, "Yeah man!"
-    assert_equal @post.body, "Boogie boogie."
-    assert_equal @post.author, "Author Man"                                      
+    assert_equal @post.body, "Boogie boogie."                                  
   end
 
   test 'should not destroy post when not logged in as author' do
