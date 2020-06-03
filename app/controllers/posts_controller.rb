@@ -37,6 +37,10 @@ class PostsController < ApplicationController
       flash[:danger] = 'Post does not exist.'
       redirect_to posts_path
     end
+
+    @authors = {}
+    @comments = Comment.where("post_id = '#{@post.id}'")
+    @comments.each { |comment| @authors["#{comment.id}"] = User.find_by(id: comment.user_id ).name }
   end
 
   def create
