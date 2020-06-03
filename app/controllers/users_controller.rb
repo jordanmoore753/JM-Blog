@@ -25,7 +25,15 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user = User.find_by(id: cookies.encrypted[:user_id])
 
+    if @user && @user.update(user_params('patch'))
+      flash[:success] = 'User successfully updated.'
+      redirect_to profile_path
+    else
+      flash.now[:danger] = 'User could not be updated.'
+      render 'edit'
+    end
   end
 
   def show
