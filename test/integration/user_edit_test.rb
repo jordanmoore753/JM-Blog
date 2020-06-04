@@ -59,8 +59,7 @@ class UserEditTest < ActionDispatch::IntegrationTest
     log_in_as(@user_one)
     patch edit_path, params: { user: { name: 'New Name',
                                        email: 'newemail@gmail.com',
-                                       password: 'foob',
-                                       password_confirmation: 'foob' }}
+                                       password: 'foob' }}
                                                   
 
     assert_response 200
@@ -68,16 +67,18 @@ class UserEditTest < ActionDispatch::IntegrationTest
     assert_not flash.empty?  
   end
 
-  test 'should not update password because non matching' do
+  test 'should update password' do
     log_in_as(@user_one)
     patch edit_path, params: { user: { name: 'New Name',
                                        email: 'newemail@gmail.com',
-                                       password: 'foob2@',
-                                       password_confirmation: 'foob2#' }}
+                                       password: 'foob2@' }}
                                                   
 
-    assert_response 200
-    assert_template 'users/edit'
+    assert_response 302
+    follow_redirect!
+
+    assert_template 'users/show'
     assert_not flash.empty?  
+    assert_not flash[:danger]
   end
 end

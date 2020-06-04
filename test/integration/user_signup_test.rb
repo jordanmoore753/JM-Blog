@@ -47,6 +47,8 @@ class UserSignupTest < ActionDispatch::IntegrationTest
     post signup_path, params: { user: { name: 'jondan', email: 'doodie@gmail.com', password: 'foob1!', password_confirmation: 'foob1!' }}
 
     assert_response 302
+    follow_redirect!
+
     assert_template 'users/show'
     assert_not flash.empty?
     assert_not flash[:danger].nil?
@@ -57,6 +59,7 @@ class UserSignupTest < ActionDispatch::IntegrationTest
 
     assert_response 302
     follow_redirect!
+    
     assert_template 'sessions/new'
     assert_not flash.empty?
     assert flash[:danger].nil?

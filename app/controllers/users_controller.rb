@@ -48,11 +48,17 @@ class UsersController < ApplicationController
   private
 
   def is_logged_in
-    logged_in?
+    if !logged_in?
+      flash[:danger] = 'You are not authorized for this page.'
+      redirect_to login_path
+    end
   end
 
   def is_not_logged_in
-    !logged_in?
+    if logged_in?
+      flash[:danger] = 'You are not authorized for this page.'
+      redirect_to profile_path
+    end
   end
 
   def user_params(method)
