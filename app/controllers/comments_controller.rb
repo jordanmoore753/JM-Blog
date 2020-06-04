@@ -17,6 +17,8 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    @comment = Comment.find_by(id: params[:id])
+
 
   end
 
@@ -28,5 +30,14 @@ class CommentsController < ApplicationController
 
   def comment_params
     params.require(:comment).permit(:body, :user_id, :post_id)
+  end
+
+  def correct_user?(comment)
+    comment.user_id == cookies.encrypted[:user_id]
+    # modify this to also check for post user_id is the current user
+  end
+
+  def correct_post?(comment)
+    comment.post_id == params[:post_id]
   end
 end
