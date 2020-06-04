@@ -36,10 +36,16 @@ class SessionsController < ApplicationController
   private
 
   def is_logged_in
-    logged_in?
+    if !logged_in?
+      flash[:danger] = 'You are not authorized to do this.'
+      redirect_to login_path
+    end
   end
 
   def is_not_logged_in
-    !logged_in?
+    if logged_in? 
+      flash[:danger] = 'You are not authorized to do this.'
+      redirect_to profile_path
+    end
   end
 end
