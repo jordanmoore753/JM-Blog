@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :valid_user, only: [:edit, :update, :destroy]
+
   def index
     @posts = Post.all
     @authors = {}
@@ -20,7 +22,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find_by(id: params[:id])
 
-    if @post.update(post_params)
+    if @post.update(post_params('patch'))
       @post.reload
       flash[:success] = 'Post successfully updated.'
       redirect_to post_path(@post)
@@ -75,7 +77,20 @@ class PostsController < ApplicationController
 
   private
 
-  def post_params
-    params.require(:post).permit(:title, :body, :user_id)
+  def post_params(method = 'post')
+    if method == 'post'
+      params.require(:post).permit(:title, :body, :user_id)
+    else
+      params.require(:post).permit(:title, :body)
+    end
+  end
+
+  def valid_user
+    post = Post.find_by(id: params[:id])
+
+    if !post || cookies.encrypted[:user_id].nil? || post.user_id != cookies.encrypted[:user_id]
+      flash[:danger] = 'You are not authorized to do that.'
+      redirect_to posts_path
+    end
   end
 end

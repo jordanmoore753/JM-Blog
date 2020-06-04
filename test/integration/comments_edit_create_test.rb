@@ -66,10 +66,9 @@ class CommentsEditCreateTest < ActionDispatch::IntegrationTest
     assert_response 302
     follow_redirect!
 
-    assert_redirected_to post_path(@post)
     assert_template 'posts/show'
     assert_not flash[:success].empty?
-    assert_not Comment.find_by(@comment.id)
+    assert_not Comment.find_by(id: @comment.id)
   end
 
   test 'should not destroy comment because not logged in as author' do
@@ -77,19 +76,19 @@ class CommentsEditCreateTest < ActionDispatch::IntegrationTest
     assert_response 302
     follow_redirect!
 
-    assert_redirected_to post_path(@post)
     assert_template 'posts/show'
     assert_not flash[:danger].empty?
-    assert Comment.find_by(@comment.id)
+    assert_not flash[:success]
+    assert Comment.find_by(id: @comment.id)
 
     log_in_as(@user_two)
     delete post_comment_path(@comment.post_id, @comment.id)
     assert_response 302
     follow_redirect!
 
-    assert_redirected_to post_path(@post)
     assert_template 'posts/show'
     assert_not flash[:danger].empty?
-    assert Comment.find_by(@comment.id)
+    assert_not flash[:success]
+    assert Comment.find_by(id: @comment.id)
   end
 end
