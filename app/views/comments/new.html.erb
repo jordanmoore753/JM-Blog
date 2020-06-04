@@ -1,0 +1,8 @@
+<% provide(:title, 'New Comment') %>
+
+<h1>New Comment</h1>
+<%= form_with(model: @comment, url: post_comments_path, local: true) do |form| %>
+  <%= form.label :body %>
+  <%= form.text_area(:body) %>
+  <%= form.submit "Create Comment" %>
+<% end %>
