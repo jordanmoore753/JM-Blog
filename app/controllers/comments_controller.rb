@@ -1,27 +1,20 @@
 class CommentsController < ApplicationController
+  before_action :valid_user, only: [:edit, :update]
+  before_action :valid_user_for_destroy, only: [:destroy]
+
   def edit
     @comment = Comment.find_by(id: params[:id])
-
-    if @comment.nil? || @comment.user_id != cookies.encrypted[:user_id]
-      flash[:danger] = 'Comment or authorization does not exist.'
-      redirect_to post_path(params[:post_id])
-    end
   end
 
   def update
     @comment = Comment.find_by(id: params[:id])
 
-    if @comment.user_id == cookies.encrypted[:user_id]
-      if @comment.update(comment_params('patch'))
-        flash[:success] = 'Successfully updated comment.'
-        redirect_to post_path(@comment.post_id)
-      else
-        flash.now[:danger] = 'There was a problem while updating this comment.'
-        render 'edit'
-      end
-    else
-      flash[:danger] = 'You are not authorized to edit this comment.'
+    if @comment.update(comment_params('patch'))
+      flash[:success] = 'Successfully updated comment.'
       redirect_to post_path(@comment.post_id)
+    else
+      flash.now[:danger] = 'There was a problem while updating this comment.'
+      render 'edit'
     end
   end
 
@@ -41,11 +34,6 @@ class CommentsController < ApplicationController
   def destroy
     @comment = Comment.find_by(id: params[:id])
     post_id = @comment.post_id
-
-    if !correct_user?(@comment) || !correct_post?(@comment)
-      flash[:danger] = 'You are not authorized to perform that action.'
-      return redirect_to post_path(@comment.post_id)
-    end
 
     Comment.destroy(@comment.id)
     flash[:success] = 'Successfully deleted comment.'
@@ -73,6 +61,24 @@ class CommentsController < ApplicationController
   end
 
   def correct_post?(comment)
-    comment.post_id == params[:post_id]
+    comment.post_id.to_s == params[:post_id]
+  end
+
+  def valid_user
+    comment = Comment.find_by(id: params[:id])
+
+    if comment.nil? || comment.user_id != cookies.encrypted[:user_id]
+      flash[:danger] = 'Comment or authorization does not exist.'
+      redirect_to post_path(params[:post_id])
+    end
+  end
+
+  def valid_user_for_destroy
+    comment = Comment.find_by(id: params[:id])
+
+    if !correct_user?(comment) || !correct_post?(comment)
+      flash[:danger] = 'You are not authorized to perform that action.'
+      return redirect_to post_path(comment.post_id)
+    end    
   end
 end

@@ -28,9 +28,12 @@ class PostEditTest < ActionDispatch::IntegrationTest
     log_in_as(@user_two)
     get edit_post_path(@post)
     assert_response 302
-    assert_template "sessions/new"
+    follow_redirect!
+
+    assert_template "posts/index"
     assert_not flash.empty?
     assert_not flash[:danger].empty?
+    assert_not flash[:success]
   end
 
   test 'should not update post because not logged in as author' do
@@ -39,7 +42,7 @@ class PostEditTest < ActionDispatch::IntegrationTest
 
     assert_response 302
     follow_redirect!
-    assert_template 'sessions/new'
+    assert_template 'posts/index'
     assert_not flash.empty?
     assert_not flash[:danger].empty?
   end
@@ -50,19 +53,20 @@ class PostEditTest < ActionDispatch::IntegrationTest
                                               body: "Boogie boogie." }}
 
     assert_response 302
+    follow_redirect!
+
     @post.reload                                        
-    assert_redirected_to post_path(@post)
+    assert_template 'posts/show'
     assert_equal @post.title, "Yeah man!"
     assert_equal @post.body, "Boogie boogie."                                  
   end
 
   test 'should not destroy post when not logged in as author' do
-    id = @post.id
+    id = @post.id.to_s
     delete post_path(@post)
     assert_response 302
     follow_redirect!
 
-    assert_redirected_to posts_path
     assert_template 'posts/index'
     assert_not flash[:danger].empty?
     assert Post.find_by(id)
@@ -72,14 +76,13 @@ class PostEditTest < ActionDispatch::IntegrationTest
     assert_response 302
     follow_redirect!
 
-    assert_redirected_to posts_path
     assert_template 'posts/index'
     assert_not flash[:danger].empty?
-    assert Post.find_by(id)
+    assert Post.find_by(id: id)
   end
 
   test 'should destroy post' do
-    id = @post.id
+    id = @post.id.to_s
     log_in_as(@user_one)
     delete post_path(@post)
     assert_response 302
@@ -88,6 +91,6 @@ class PostEditTest < ActionDispatch::IntegrationTest
     assert_redirected_to posts_path
     assert_template 'posts/index'
     assert_not flash[:success].empty?
-    assert_not Post.find_by(id)
+    assert_not Post.find_by(id: id)
   end
 end
