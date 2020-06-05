@@ -1,0 +1,5 @@
+<div class="list is-hoverable">
+<% @posts.each do |post| %>
+  <%= link_to post.title, post_path(post), class: 'list-item' %>
+<% end %>  
+</div>
