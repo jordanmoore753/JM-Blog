@@ -43,6 +43,9 @@ class UsersController < ApplicationController
       flash[:danger] = 'Must be logged in to view profile.'
       redirect_to login_path
     end
+
+    @posts = Post.where("user_id = '#{@user.id}'")
+    @comments = Comment.where("user_id = '#{@user.id}'")
   end
 
   private

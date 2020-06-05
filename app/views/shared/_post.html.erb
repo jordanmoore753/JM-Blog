@@ -1,0 +1,6 @@
+<div class="content">
+  <h1><%= @post.title %></h1>
+  <% @post.body.split("\r").each do |paragraph| %>
+    <p><%= paragraph %></p>
+  <% end %>
+</div>
