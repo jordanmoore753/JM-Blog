@@ -3,4 +3,36 @@
   <% @post.body.split("\r").each do |paragraph| %>
     <p><%= paragraph %></p>
   <% end %>
+  <hr>
+  <% if logged_in? %>
+  <h3>Write Comment</h3>
+    <%= form_with(model: @comment, url: post_comments_path(params[:id]), local: true) do |form| %>
+      <div class="field">
+        <%= form.label :body, class: 'label' %>
+        <div class="control">
+          <%= form.text_area :body, class: 'textarea' %>  
+        </div>   
+      </div>
+      <div class="field">
+        <div class="control">
+          <%= form.button 'Submit Comment', class: 'button is-dark' %>  
+        </div>   
+      </div>
+    <% end %>
+  <% end %>
+  <h3 class="has-text-grey-light">Comments</h3>
+  <% @comments.each do |comment| %>
+    <div class="card">
+      <div class="card-content">
+        <div class="media-content">
+          <p class="title is-4"><%= @authors["#{comment.id}"] %></p>
+        </div>
+        <div class="content">
+          <% comment.body.split("\r").each do |paragraph| %>
+            <p class="comment-paragraph"><%= paragraph %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

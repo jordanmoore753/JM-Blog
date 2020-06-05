@@ -43,6 +43,7 @@ class PostsController < ApplicationController
     @authors = {}
     @comments = Comment.where("post_id = '#{@post.id}'")
     @comments.each { |comment| @authors["#{comment.id}"] = User.find_by(id: comment.user_id ).name }
+    @comment = Comment.new
   end
 
   def create

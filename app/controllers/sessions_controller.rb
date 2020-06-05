@@ -22,11 +22,7 @@ class SessionsController < ApplicationController
       render 'sessions/new'
     end
   end
-<<<<<<< HEAD
   
-=======
-
->>>>>>> rest
   def destroy
     flash[:success] = 'Successfully logged out.'
     forget
