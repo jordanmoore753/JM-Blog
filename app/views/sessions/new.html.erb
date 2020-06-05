@@ -1,10 +1,26 @@
 <% provide(:title, 'Login') %>
 
-<h1>Login</h1>
-<%= form_with(url: login_path, local: true) do |form| %>
-  <%= form.label :email %>
-  <%= form.email_field :email %>
-  <%= form.label :password %>
-  <%= form.password_field :password %>
-  <%= form.submit 'Login' %>
-<% end %>
+<div class="container">
+  <div class="content">
+    <h1 class="title has-text-centered">Login</h1>
+  </div>
+  <%= form_with(url: login_path, local: true) do |form| %>
+    <div class="field">
+      <%= form.label :email, class: 'label' %>
+      <div class="control">
+        <%= form.email_field :email, class: 'input' %> 
+      </div>       
+    </div>
+    <div class="field">
+      <%= form.label :password, class: 'label' %>
+      <div class="control">
+        <%= form.password_field :password, class: 'input' %>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control has-text-centered">
+        <%= form.button 'Login', class: 'button is-dark' %>   
+      </div>
+    </div>
+  <% end %>  
+</div>

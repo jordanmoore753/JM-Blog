@@ -1,5 +1,51 @@
-<% if logged_in? %>
-  <p>SEX</p>
-<% else %>
-  <p>Whoops!</p>
-<% end %>
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a id="brand" class="navbar-item" href="/">
+      <%= image_tag 'jmblog.png', size: '105x28' %>
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item"  href="/">
+        Home
+      </a>
+
+      <a class="navbar-item" href="/posts">
+        Posts
+      </a>
+
+      <% if logged_in? %>
+        <a class="navbar-item" href="/profile">
+          Profile
+        </a>
+      <% end %>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <% if !logged_in? %>
+          <div class="buttons">
+            <a class="button is-dark" href="/signup">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light" href="/login">
+              Log in
+            </a>
+          </div>
+        <% else %>
+          <div class="buttons">
+            <%= link_to 'Logout', logout_path, method: :delete, class: 'button is-dark' %>
+          </div>
+        <% end %>
+      </div>
+      </div>
+    </div>
+  </div>
+</nav>
