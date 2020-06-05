@@ -1,14 +1,38 @@
 <% provide(:title, 'Signup') %>
 
-<h1>Signup</h1>
-<%= form_with(scope: @user, url: signup_path, local: true) do |form| %>
-  <%= form.label :name %>
-  <%= form.text_field :name %>
-  <%= form.label :email %>
-  <%= form.email_field :email %>
-  <%= form.label :password %>
-  <%= form.password_field :password %>
-  <%= form.label :password_confirmation, 'Password Confirmation' %>
-  <%= form.password_field :password_confirmation %>
-  <%= form.submit 'Signup' %>
-<% end %>
+<div class="container">
+  <div class="content has-text-centered">
+    <h1>Sign Up</h1>
+  </div>
+  <%= form_with(scope: @user, url: signup_path, local: true) do |form| %>
+    <div class="field">
+      <%= form.label :name, class: 'label' %>
+      <div class="control">
+        <%= form.text_field :name, class: 'input' %>  
+      </div>   
+    </div>
+    <div class="field">
+      <%= form.label :email, class: 'label' %>
+      <div class="control">
+        <%= form.email_field :email, class: 'input' %>  
+      </div>   
+    </div>
+    <div class="field">
+      <%= form.label :password, class: 'label' %>
+      <div class="control">
+        <%= form.password_field :password, class: 'input' %>  
+      </div>   
+    </div>
+    <div class="field">
+      <%= form.label :password_confirmation, class: 'label' %>
+      <div class="control">
+        <%= form.password_field :password_confirmation, class: 'input' %>  
+      </div>   
+    </div>
+    <div class="field">
+      <div class="control has-text-centered">
+        <%= form.button 'Sign Up', class: 'button is-dark' %>  
+      </div>   
+    </div>
+  <% end %>
+</div>
