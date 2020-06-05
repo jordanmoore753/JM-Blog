@@ -88,7 +88,6 @@ class PostEditTest < ActionDispatch::IntegrationTest
     assert_response 302
     follow_redirect!
 
-    assert_redirected_to posts_path
     assert_template 'posts/index'
     assert_not flash[:success].empty?
     assert_not Post.find_by(id: id)

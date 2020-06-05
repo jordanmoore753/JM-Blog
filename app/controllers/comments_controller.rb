@@ -1,6 +1,9 @@
 class CommentsController < ApplicationController
+  include SessionsHelper
+
   before_action :valid_user, only: [:edit, :update]
   before_action :valid_user_for_destroy, only: [:destroy]
+  before_action :logged_in, only: [:create]
 
   def edit
     @comment = Comment.find_by(id: params[:id])
@@ -19,6 +22,9 @@ class CommentsController < ApplicationController
   end
 
   def create
+    params[:comment][:user_id] = cookies.encrypted[:user_id]
+    params[:comment][:post_id] = params[:post_id]
+
     @comment = Comment.new(comment_params)
 
     if @comment.save
@@ -69,6 +75,13 @@ class CommentsController < ApplicationController
 
     if comment.nil? || comment.user_id != cookies.encrypted[:user_id]
       flash[:danger] = 'Comment or authorization does not exist.'
+      redirect_to post_path(params[:post_id])
+    end
+  end
+
+  def logged_in
+    if !logged_in?
+      flash[:danger] = 'You are not authorized to do that.'
       redirect_to post_path(params[:post_id])
     end
   end

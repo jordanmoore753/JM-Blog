@@ -9,29 +9,33 @@ class CommentsEditCreateTest < ActionDispatch::IntegrationTest
     @comment = Comment.find_by(post_id: @post.id)
   end
 
+  def comments_count
+    Comment.all.length
+  end
+
   test 'should not create comment without being logged in' do 
+    orig_comments_size = comments_count
     post post_comments_path(@post.id), params: { comment: { body: "Whatever!" }}
     assert_response 302
     follow_redirect!
 
-    assert_redirected_to post_path(@post)
+    assert_equal orig_comments_size, comments_count
     assert_template 'posts/show'
-    assert_not flash[:danger].empty?
+    assert flash[:danger]
   end
 
   test 'should create comment' do
     log_in_as(@user_one)
-    comments_count = Comment.all.filter { |comment| comment.post_id == @post.id }.length
+    orig_comments_size = comments_count
 
     post post_comments_path(@post.id), params: { comment: { body: "Whatever!" }}
     assert_response 302
     follow_redirect!
     
-    new_comments_count = Comment.all.filter { |comment| comment.post_id == @post.id }.length
-    assert_redirected_to post_path(@post)
+    new_comments_count = comments_count
     assert_template 'posts/show'
-    assert_not flash[:success].empty?
-    assert_equal new_comments_count, comments_count + 1
+    assert flash[:success]
+    assert_equal new_comments_count, orig_comments_size + 1
   end
 
   test 'should not update comment without being logged in as author' do
@@ -40,7 +44,6 @@ class CommentsEditCreateTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     @comment.reload
-    assert_redirected_to post_path(@post)
     assert_template 'posts/show'
     assert_not flash[:danger].empty?
     assert_not_equal @comment.body, 'What is good?'
@@ -53,10 +56,8 @@ class CommentsEditCreateTest < ActionDispatch::IntegrationTest
     follow_redirect!
 
     @comment.reload
-    assert_redirected_to post_path(@post)
     assert_template 'posts/show'
     assert_not flash[:success].empty?
-    assert_not flash[:danger].empty?
     assert_equal @comment.body, 'What is good?'
   end
 
