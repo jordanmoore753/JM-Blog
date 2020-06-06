@@ -10,6 +10,9 @@
   </div>
   <div class="content">
     <h2>Posts</h2>
+  </div>
+  <%= will_paginate(@posts, renderer: BulmaPagination::Rails) %>
+  <div class="content">
     <%= render 'posts/posts' %>
   </div>
 </div>

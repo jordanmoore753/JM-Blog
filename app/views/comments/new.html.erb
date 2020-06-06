@@ -1,8 +1,20 @@
 <% provide(:title, 'New Comment') %>
 
-<h1>New Comment</h1>
-<%= form_with(model: @comment, url: post_comments_path, local: true) do |form| %>
-  <%= form.label :body %>
-  <%= form.text_area(:body) %>
-  <%= form.submit "Create Comment" %>
-<% end %>
+<div class="container">
+  <div class="content has-text-centered">
+    <h1>New Comment</h1>
+  </div>
+  <%= form_with(model: @comment, url: post_comments_path, local: true) do |form| %>
+    <div class="field">
+      <%= form.label :body, class: 'label' %>
+      <div class="control">
+        <%= form.text_area :body, class: 'textarea' %>  
+      </div>   
+    </div>
+    <div class="field">
+      <div class="control has-text-centered">
+        <%= form.button 'Create Comment', class: 'button is-dark' %>  
+      </div>   
+    </div>
+  <% end %>
+</div>

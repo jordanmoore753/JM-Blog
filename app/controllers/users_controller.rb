@@ -44,7 +44,7 @@ class UsersController < ApplicationController
       redirect_to login_path
     end
 
-    @posts = Post.where("user_id = '#{@user.id}'")
+    @posts = Post.where("user_id = '#{cookies.encrypted[:user_id]}'").paginate(page: params[:page], per_page: 5)
     @comments = Comment.where("user_id = '#{@user.id}'")
 
     @authors = {}
