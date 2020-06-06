@@ -1,0 +1,18 @@
+<div class="list">
+  <% @posts.each do |post| %>
+    <div class="card">
+      <a href="<%= post_path(post.id) %>">
+        <div class="media-content">
+          <p class="card-header-title"><%= post.title %></p>
+          <p class="author-name"><%= @authors["#{post.id}"] %>, <span class="time-with-post"><%= Date.new(post.created_at.year, post.created_at.month, post.created_at.day).to_formatted_s(:long) %></span></p>
+        </div>
+      </a>
+    <% if valid_user?(post) %>
+      <footer class="card-footer">
+        <a href="<%= edit_post_path(post.id) %>" class="card-footer-item">Edit</a>
+        <%= link_to 'Delete', post_path(post.id), data: { confirm: 'Are you sure?' }, method: :delete, class: 'card-footer-item' %>
+      </footer>
+    <% end %>
+    </div>
+  <% end %>
+</div>

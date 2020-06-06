@@ -37,3 +37,18 @@
 .comment-paragraph {
   margin-top: 5px;
 }
+
+/* posts index */
+
+.author-name {
+  align-items: center;
+  color: #2a2a2a;
+  display: flex;
+  flex-grow: 1;
+  padding: 0rem 1rem;
+  padding-bottom: 10px;
+}
+
+.time-with-post {
+  margin-left: 5px;
+}

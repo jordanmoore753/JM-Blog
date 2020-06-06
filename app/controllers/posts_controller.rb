@@ -2,7 +2,9 @@ class PostsController < ApplicationController
   before_action :valid_user, only: [:edit, :update, :destroy]
 
   def index
-    @posts = Post.all
+    @posts = Post.paginate(page: params[:page], per_page: 10)
+    redirect_to profile_path if @posts.empty?
+
     @authors = {}
 
     @posts.each do |post| 

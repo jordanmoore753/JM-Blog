@@ -46,6 +46,12 @@ class UsersController < ApplicationController
 
     @posts = Post.where("user_id = '#{@user.id}'")
     @comments = Comment.where("user_id = '#{@user.id}'")
+
+    @authors = {}
+
+    @posts.each do |post| 
+      @authors["#{post.id}"] = User.find_by(id: post.user_id).name
+    end
   end
 
   private
