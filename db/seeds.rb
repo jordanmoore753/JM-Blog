@@ -11,12 +11,12 @@ User.create!(name: 'Sucka', email: 'suckaberg@gmail.com', password: 'foob1!')
 me = User.first
 him = User.last
 
-3.times do |n|
+25.times do |n|
   Post.create!(title: "Post #{n}", body: "This is the freaking #{n}th post!", user_id: me.id)
 end
 
-3.times do |n|
-  Post.create!(title: "Post #{n + 4}", body: "This is the freaking #{n + 4}th post!", user_id: him.id)
+25.times do |n|
+  Post.create!(title: "Post #{n + 50}", body: "This is the freaking #{n + 50}th post!", user_id: him.id)
 end
 
 # create comments

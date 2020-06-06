@@ -20,16 +20,24 @@
     <% end %>
   <% end %>
   <h3 class="has-text-grey-light">Comments</h3>
-  <% @comments.each do |comment| %>
+  <% if @comments.length > 0 %>
+    <% @comments.each do |comment| %>
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+            <% comment.body.split("\r").each do |paragraph| %>
+              <p class="comment-paragraph"><%= paragraph %></p>
+            <% end %>
+            <hr>
+            <p class="comment-paragraph">Written by <strong><%= @authors["#{comment.id}"]%></strong> on <strong><%= time_tag comment.created_at %></strong>.</p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
     <div class="card">
       <div class="card-content">
-        <div class="content">
-          <% comment.body.split("\r").each do |paragraph| %>
-            <p class="comment-paragraph"><%= paragraph %></p>
-          <% end %>
-          <hr>
-          <p class="comment-paragraph">Written by <strong><%= @authors["#{comment.id}"]%></strong> on <strong><%= time_tag comment.created_at %></strong>.</p>
-        </div>
+        <p class="comment-paragraph">No comments.</p>
       </div>
     </div>
   <% end %>

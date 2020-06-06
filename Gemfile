@@ -32,6 +32,7 @@ gem 'faker'
 gem 'will_paginate'
 gem 'bulma-rails', '~> 0.8.2'
 gem 'jquery-rails'
+gem 'will_paginate-bulma'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
