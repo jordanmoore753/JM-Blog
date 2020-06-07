@@ -23,7 +23,11 @@
   <% if @comments.length > 0 %>
     <% @comments.each do |comment| %>
       <div class="card">
+        <% if valid_user_comment?(comment) %>
+        <div class="card-content footer-comment">
+        <% else %>
         <div class="card-content">
+        <% end %>
           <div class="content">
             <% comment.body.split("\r").each do |paragraph| %>
               <p class="comment-paragraph"><%= paragraph %></p>
@@ -31,6 +35,10 @@
             <hr>
             <p class="comment-paragraph">Written by <strong><%= @authors["#{comment.id}"]%></strong> on <strong><%= time_tag comment.created_at %></strong>.</p>
           </div>
+          <% if valid_user_comment?(comment) %>
+            <a href="<%= edit_post_comment_path(@post.id, comment.id) %>" class="button">Edit</a>
+            <%= link_to 'Delete', post_comment_path(@post.id, comment.id), data: { confirm: 'Are you sure?' }, method: :delete, class: 'button is-dark' %>
+          <% end %>
         </div>
       </div>
     <% end %>
