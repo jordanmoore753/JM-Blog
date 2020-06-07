@@ -22,7 +22,6 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_response 302
 
     follow_redirect!
-    assert_redirected_to post_path(@comment.post_id)
     assert_template "posts/show"
     assert_not flash[:danger].empty?
   end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'static_pages#index'
   get '/login',     to: 'sessions#new'
   get '/signup',    to: 'users#new'
   get '/profile',   to: 'users#show'

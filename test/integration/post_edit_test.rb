@@ -12,16 +12,14 @@ class PostEditTest < ActionDispatch::IntegrationTest
     log_in_as(@user_one)
     get edit_post_path(@post)
     assert_response :success
-    assert_select "title", "Edit Article | JM Blog"
+    assert_select "title", "Edit Post | JM Blog"
     assert_template "posts/edit"
 
-    assert_select "input[name=post_title]" do
+    assert_select "input[id=post_title]" do
       assert_select "[value=?]", @post.title
     end
 
-    assert_select "input[name=post_author}]" do
-      assert_select "[value=?]", @post.author
-    end
+    assert_select "textarea[id=post_body]", count: 1
   end
 
   test 'should not get edit post page because not logged in as author' do

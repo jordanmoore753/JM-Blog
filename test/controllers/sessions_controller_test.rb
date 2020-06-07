@@ -15,6 +15,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     log_in_as(@user_one)
     get login_path
     assert_response 302
+    follow_redirect!
+    
     assert_template 'users/show'
     assert_not flash[:danger].empty?
   end
