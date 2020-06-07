@@ -1,0 +1,33 @@
+<% if @user %>
+  <% if @user.errors.any? %>
+  <section class="section">
+    <% @user.errors.full_messages.each do |msg| %>
+      <article class="message is-danger">
+        <div class="message-body"><%= msg %></div>
+      </article>
+    <% end %>
+  </section>
+  <% end %>
+<% end %>
+<% if @post %>
+  <% if @post.errors.any? %>
+  <section class="section">
+    <% @post.errors.full_messages.each do |msg| %>
+      <article class="message is-danger">
+        <div class="message-body"><%= msg %></div>
+      </article>
+    <% end %>
+  </section>
+  <% end %>
+<% end %>
+<% if @comment %>
+  <% if @comment.errors.any? %>
+  <section class="section">
+    <% @comment.errors.full_messages.each do |msg| %>
+      <article class="message is-danger">
+        <div class="message-body"><%= msg %></div>
+      </article>
+    <% end %>
+  </section>
+  <% end %>
+<% end %>

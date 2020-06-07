@@ -1,0 +1,14 @@
+<% if flash[:success] %>
+  <section class="section">
+    <article class="message is-success">
+      <div class="message-body"><%= flash[:success] %></div>
+    </article>
+  </section>
+<% end %>
+<% if flash[:danger] %>
+  <section class="section">
+    <article class="message is-danger">
+      <div class="message-body"><%= flash[:danger] %></div>
+    </article>
+  </section>
+<% end %>
