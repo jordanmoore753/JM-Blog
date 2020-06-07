@@ -1,4 +1,5 @@
-<div class="list">
+<div class="content">
+  <% if @posts.length > 0 %>
   <% @posts.each do |post| %>
     <div class="card">
       <a href="<%= post_path(post.id) %>">
@@ -14,5 +15,8 @@
       </footer>
     <% end %>
     </div>
+  <% end %>
+  <% else %>
+    <p>No posts.</p>
   <% end %>
 </div>

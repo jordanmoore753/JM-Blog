@@ -24,7 +24,7 @@ class PostIndexTest < ActionDispatch::IntegrationTest
     get posts_url
     assert_response :success
 
-    log_in_as(@user_one)
+    log_in_as(@user_two)
     get edit_post_url(@post)
     assert_response :success
     assert_template "posts/edit"

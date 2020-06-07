@@ -67,7 +67,7 @@ class PostEditTest < ActionDispatch::IntegrationTest
 
     assert_template 'posts/index'
     assert_not flash[:danger].empty?
-    assert Post.find_by(id)
+    assert Post.find_by(id: id)
 
     log_in_as(@user_two)
     delete post_path(@post)

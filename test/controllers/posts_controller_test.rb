@@ -16,7 +16,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get edit' do
-    log_in_as(@user_one)
+    log_in_as(@user_two)
     get edit_post_url(@first_post)
     assert_response :success
     assert_select 'title', 'Edit Post | JM Blog'
