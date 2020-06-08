@@ -2,14 +2,15 @@ require 'test_helper'
 
 class PostIndexTest < ActionDispatch::IntegrationTest
   def setup
-    populate_db
     @user_one = User.first
     @user_two = User.last
-    @posts = Post.all.slice(0..4)
-    @post = @posts.first
   end
 
   test 'should get index of all posts' do 
+    populate_db
+    @posts = Post.all.slice(0..4)
+    @post = @posts.first
+
     get posts_url
     assert_response :success
     assert_template "posts/index"
@@ -21,6 +22,10 @@ class PostIndexTest < ActionDispatch::IntegrationTest
   end
 
   test 'should go to edit page for post' do
+    populate_db
+    @posts = Post.all.slice(0..4)
+    @post = @posts.first
+
     get posts_url
     assert_response :success
 
@@ -28,5 +33,12 @@ class PostIndexTest < ActionDispatch::IntegrationTest
     get edit_post_url(@post)
     assert_response :success
     assert_template "posts/edit"
+  end
+
+  test 'should go to posts index and show no posts' do
+    get posts_url
+    assert_response :success
+    assert_template "posts/index"
+    assert_select 'p', 'No posts.'
   end
 end
